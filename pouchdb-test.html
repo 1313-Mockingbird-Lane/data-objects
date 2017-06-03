@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script src="https://cdn.jsdelivr.net/pouchdb/6.2.0/pouchdb.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        class Member {
+            constructor(firstName, lastName) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this._id = this.firstName + ' ' + this.lastName;
+            }
+
+            static fromJson(json) {
+                var data = JSON.parse(json);
+                return new Member(data.firstName, data.lastName);
+            }
+
+            static fromArray(array) {
+                return new Member(...array);
+            }
+
+            toJson() {
+                return JSON.stringify(this);
+            }
+
+        }
+
+        var tom = Member.fromJson('{"firstName":"Tom","lastName":"Marks"}')
+
+        var db = new PouchDB('members');
+        db.put(tom);
+        db.get('Tom Marks').then(function (doc) {
+          console.log(doc);
+        });
+    </script>
+
+</body>
+</html>
