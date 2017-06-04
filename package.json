@@ -1,0 +1,16 @@
+{
+  "name": "data-objects",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "pouchdb": "^6.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean-db-artifacts": "rm -rf schools schools-mrview-*",
+    "db-example": "node school-data-example.js"
+  },
+  "author": "",
+  "license": "MIT"
+}
