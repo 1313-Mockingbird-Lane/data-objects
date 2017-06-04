@@ -7,7 +7,7 @@
 
     <link href="./css/style.css" type="text/css" rel="stylesheet">
     <title>fake database</title>
-
+    <script src="https://cdn.jsdelivr.net/pouchdb/6.2.0/pouchdb.min.js"></script>
 </head>
 <body>
     <header>
@@ -17,7 +17,7 @@
 
     <section id="menu">
       <ul>
-        <li><button type="button" class="btn btn-primary" onclick="showCurrentStateOfData()">click me</button></li>
+        <li><button type="button" class="btn btn-primary" onclick="run_queries()">click me</button></li>
       </ul>
     </section>
 
@@ -25,7 +25,69 @@
     	<div id="display"></div>
     </section>
 
-    <script type="text/javascript" src="fakeDatabasePopulator.js"></script>
+    <script type="text/javascript">
+    class Member {
+
+        constructor(email, firstName, lastName, zipcode) {
+            this._id = email;
+            this.type = '_member';
+            this.firstName = firstName;
+            this.lastName = lastName;
+            this.zipcode = zipcode;
+            this.fullName = firstName + " " + lastName;
+        }
+
+        static fromJson(json) {
+            var data = JSON.parse(json);
+            return new Member(
+              data.email,
+              data.firstName,
+              data.lastName,
+              data.zipcode,
+            );
+        }
+
+        static fromArray(array) {
+            return new Member(...array);
+        }
+
+        toJson() {
+            return JSON.stringify(this);
+        }
+
+    }
+    var tom = Member.fromJson('{"email" : "test-email", "firstName" : "tom", "lastName" : "marks", "zipcode" : "19962"}')
+    var db = new PouchDB('members', {auto_compaction: true});
+
+
+
+
+    db.put(tom);
+    db.get('Tom Marks').then(function (doc) {
+      console.log(doc);
+    });
+
+
+    function run_queries(argument) {
+        console.log('Running Queries')
+        db.query('index/members', {
+            key: "19962",
+        }).then(console.log)
+
+        db.query('index/member_zipcode', {
+            key: "19962",
+            include_docs: true,
+        }).then(function(results){
+            results.rows.forEach(function(row) {
+                var member = models.Member.fromObj(row.doc)
+                console.log(member.toJson());
+            });
+
+        });
+    }
+
+    run_queries()
+    </script>
 
 
 
