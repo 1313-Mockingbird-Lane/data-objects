@@ -7,9 +7,9 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "clean-db-artifacts": "rm -rf schools schools-mrview-*",
-    "db-example": "node school-data-example.js"
+    "init-db": "node load-school-data.js",
+    "query-example": "node school-data-example.js"
   },
   "author": "",
   "license": "MIT"

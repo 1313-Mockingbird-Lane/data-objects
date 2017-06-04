@@ -8,11 +8,15 @@ class School {
 
     static fromJson(json) {
         var data = JSON.parse(json);
+        return this.fromObj(data);
+    }
+
+    static fromObj(obj) {
         return new School(
         //  select from either:
         //  property name || name used in external data
-            data.name     || data.SchoolName,
-            data.zipcode  || data.Zip
+            obj.name     || obj.SchoolName,
+            obj.zipcode  || obj.Zip
         );
     }
 
